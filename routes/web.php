@@ -25,3 +25,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/produits/{produit}', [ProduitController::class, 'update'])->name('admin.produits.update');
     Route::delete('/admin/produits/{produit}', [ProduitController::class, 'destroy'])->name('admin.produits.destroy');
 });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/produits', [ProduitController::class, 'index'])->name('admin.produits.index');
+    Route::get('/admin/produits/creer', [ProduitController::class, 'create'])->name('admin.produits.create');
+    Route::post('/admin/produits', [ProduitController::class, 'store'])->name('admin.produits.store');
+    Route::get('/admin/produits/{produit}/modifier', [ProduitController::class, 'edit'])->name('admin.produits.edit');
+    Route::put('/admin/produits/{produit}', [ProduitController::class, 'update'])->name('admin.produits.update');
+    Route::delete('/admin/produits/{produit}', [ProduitController::class, 'destroy'])->name('admin.produits.destroy');
+});
