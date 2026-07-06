@@ -17,7 +17,7 @@
     @endif
 
     <form method="POST" action="/login">
-        @csrf {{ -- Token de sécurité anti CSRF obligatoire sur chaque formualire POST Laravel --}}
+        @csrf {{-- Token de sécurité anti CSRF obligatoire sur chaque formualire POST Laravel --}}
 
         <label>Email :</label>
         <input type="email" name="email_employe" value="{{ old('email_employe') }}" required>
