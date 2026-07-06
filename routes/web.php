@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\EmployeController;
 use App\Http\Controllers\Admin\ProduitController;
+use App\Http\Controllers\Admin\CommandeController;
+use App\Http\Controllers\Admin\VenteMagasinController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -32,4 +34,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/produits/{produit}/modifier', [ProduitController::class, 'edit'])->name('admin.produits.edit');
     Route::put('/admin/produits/{produit}', [ProduitController::class, 'update'])->name('admin.produits.update');
     Route::delete('/admin/produits/{produit}', [ProduitController::class, 'destroy'])->name('admin.produits.destroy');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/commandes', [CommandeController::class, 'index'])->name('admin.commandes.index');
+    Route::get('/admin/commandes/{commande}', [CommandeController::class, 'show'])->name('admin.commandes.show');
+    Route::put('/admin/commandes/{commande}/statut', [CommandeController::class, 'updateStatut'])->name('admin.commandes.statut');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/ventes/creer', [VenteMagasinController::class, 'create'])->name('admin.ventes.create');
+    Route::post('/admin/ventes', [VenteMagasinController::class, 'store'])->name('admin.ventes.store');
 });
