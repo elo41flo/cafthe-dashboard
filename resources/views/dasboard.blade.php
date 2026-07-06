@@ -6,7 +6,7 @@
     <title>Dashboard CafThé</title>
 </head>
 <body>
-    {{-- Ath::user() renvoie l'employé actuellement connecté (l'instance du modèle Employe) --}}
+    {{-- Auth::user() renvoie l'employé actuellement connecté (l'instance du modèle Employe) --}}
     <h1>Bienvenue, {{ Auth::user()->prenom_employe }} {{ Auth::user()->nom_employe }}</h1>
     <p>Rôle : {{ Auth::user()->role }}</p>
 
