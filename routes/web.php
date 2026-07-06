@@ -1,21 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\EmployeController;
 use App\Http\Controllers\Admin\ProduitController;
 use App\Http\Controllers\Admin\CommandeController;
 use App\Http\Controllers\Admin\VenteMagasinController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function (){
-        return view('dashboard');
-    })->name('dashboard');
-});
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/employes/creer', [EmployeController::class, 'create'])->name('admin.employes.create');
     Route::post('/admin/employes', [EmployeController::class, 'store'])->name('admin.employes.store');
@@ -48,4 +43,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/clients', [ClientController::class, 'index'])->name('admin.clients.index');
     Route::get('/admin/clients/{client}', [ClientController::class, 'show'])->name('admin.clients.show');
+});
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
