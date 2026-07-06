@@ -23,7 +23,7 @@
         <input type="email" name="email_employe" value="{{ old('email_employe') }}" required>
 
         <label>Mot de passe :</label>
-        <input type="password" name="mpd_employe" required>
+        <input type="password" name="mdp_employe" required>
 
         <button type="submit">Se connecter</button>
     </form>
