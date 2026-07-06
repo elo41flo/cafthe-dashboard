@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EmployeController;
 use App\Http\Controllers\Admin\ProduitController;
 use App\Http\Controllers\Admin\CommandeController;
 use App\Http\Controllers\Admin\VenteMagasinController;
+use App\Http\Controllers\Admin\ClientController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -43,4 +44,8 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/ventes/creer', [VenteMagasinController::class, 'create'])->name('admin.ventes.create');
     Route::post('/admin/ventes', [VenteMagasinController::class, 'store'])->name('admin.ventes.store');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/clients', [ClientController::class, 'index'])->name('admin.clients.index');
+    Route::get('/admin/clients/{client}', [ClientController::class, 'show'])->name('admin.clients.show');
 });
