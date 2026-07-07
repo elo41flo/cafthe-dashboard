@@ -8,10 +8,38 @@ use Illuminate\Http\Request;
 
 class ProduitController extends Controller
 {
-    // LECTURE : liste de tous les produits
-    public function index()
+    // LECTURE : liste des produits, avec filtres (catégorie, prix) et tri optionnels
+    public function index(Request $request)
     {
-        $produits = Produit::orderBy('nom_produit')->get();
+        // On part d'une requête "de base" qu'on enrichit selon les filtres reçus
+        $query = Produit::query();
+
+        // FILTRE : catégorie (seulement si une catégorie est sélectionnée)
+        if ($request->filled('categorie')) {
+            $query->where('categorie', $request->categorie);
+        }
+
+        // FILTRE : prix minimum
+        if ($request->filled('prix_min')) {
+            $query->where('prix_ttc', '>=', $request->prix_min);
+        }
+
+        // FILTRE : prix maximum
+        if ($request->filled('prix_max')) {
+            $query->where('prix_ttc', '<=', $request->prix_max);
+        }
+
+        // TRI par prix (croissant / décroissant), sinon tri par nom par défaut
+        if ($request->tri === 'prix_asc') {
+            $query->orderBy('prix_ttc', 'asc');
+        } elseif ($request->tri === 'prix_desc') {
+            $query->orderBy('prix_ttc', 'desc');
+        } else {
+            $query->orderBy('nom_produit');
+        }
+
+        $produits = $query->get();
+
         return view('admin.produits.index', compact('produits'));
     }
 

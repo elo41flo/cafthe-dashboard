@@ -4,7 +4,47 @@
 
 @section('contenu')
     <h1>Gestion des produits</h1>
+    
+    {{-- ============ FILTRES ============ --}}
+<div class="carte">
+    <form method="GET" action="{{ route('admin.produits.index') }}">
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end;">
+            <div>
+                <label>Catégorie :</label>
+                <select name="categorie">
+                    <option value="">Toutes</option>
+                    <option value="The" {{ request('categorie') == 'The' ? 'selected' : '' }}>Thé</option>
+                    <option value="Cafe" {{ request('categorie') == 'Cafe' ? 'selected' : '' }}>Café</option>
+                    <option value="Accessoire" {{ request('categorie') == 'Accessoire' ? 'selected' : '' }}>Accessoire</option>
+                </select>
+            </div>
 
+            <div>
+                <label>Prix min (€) :</label>
+                <input type="number" step="0.01" name="prix_min" value="{{ request('prix_min') }}" style="width: 120px;">
+            </div>
+
+            <div>
+                <label>Prix max (€) :</label>
+                <input type="number" step="0.01" name="prix_max" value="{{ request('prix_max') }}" style="width: 120px;">
+            </div>
+
+            <div>
+                <label>Trier par :</label>
+                <select name="tri">
+                    <option value="">Nom (A-Z)</option>
+                    <option value="prix_asc" {{ request('tri') == 'prix_asc' ? 'selected' : '' }}>Prix croissant</option>
+                    <option value="prix_desc" {{ request('tri') == 'prix_desc' ? 'selected' : '' }}>Prix décroissant</option>
+                </select>
+            </div>
+
+            <div>
+                <button type="submit" class="btn">Filtrer</button>
+                <a href="{{ route('admin.produits.index') }}" class="btn" style="background: var(--brun-moyen);">Réinitialiser</a>
+            </div>
+        </div>
+    </form>
+</div>
     <a href="{{ route('admin.produits.create') }}">+ Ajouter un produit</a>
 
     @if (session('succes'))
