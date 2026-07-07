@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\CommandeController;
 use App\Http\Controllers\Admin\VenteMagasinController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\ProfilController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -46,4 +48,9 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/profil', [ProfilController::class, 'edit'])->name('admin.profil.edit');
+    Route::put('/admin/profil/infos', [ProfilController::class, 'updateInfos'])->name('admin.profil.infos');
+    Route::put('/admin/profil/mot-de-passe', [ProfilController::class, 'updateMotDePasse'])->name('admin.profil.motdepasse');
 });

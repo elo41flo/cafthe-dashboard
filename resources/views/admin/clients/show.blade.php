@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Fiche client - {{ $client->nom_client }}</title>
-</head>
-<body>
+@extends('layouts.app')
+@section('titre', 'Fiche client')
+@section('contenu')
     <a href="{{ route('admin.clients.index') }}">← Retour à la liste</a>
 
     <h1>{{ $client->prenom_client }} {{ $client->nom_client }}</h1>
@@ -59,5 +55,4 @@
     @else
         <p>Aucune commande pour ce client.</p>
     @endif
-</body>
-</html>
+@endsection

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Commande n°{{ $commande->numero_commande }} - Dashboard CafThé</title>
-</head>
-<body>
+@extends('layouts.app')
+@section('titre', 'Commande n°' . $commande->numero_commande)
+@section('contenu')
     <a href="{{ route('admin.commandes.index') }}">← Retour à la liste</a>
 
     <h1>Commande n°{{ $commande->numero_commande }}</h1>
@@ -63,5 +59,4 @@
         </select>
         <button type="submit">Mettre à jour</button>
     </form>
-</body>
-</html>
+@endsection

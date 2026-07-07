@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Nouvelle vente magasin - Dashboard CafThé</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('titre', 'Nouvelle vente magasin')
+
+@section('contenu')
     <h1>Enregistrer une vente en magasin</h1>
 
     @if ($errors->any())
@@ -15,7 +13,6 @@
         </div>
     @endif
 
-    {{-- Zone d'erreur JS (ex: stock insuffisant renvoyé par le serveur) --}}
     <div id="erreur-js" style="color: red;"></div>
 
     <form id="form-vente" method="POST" action="{{ route('admin.ventes.store') }}">
@@ -33,7 +30,6 @@
             Nouveau client
         </label>
 
-        {{-- Bloc client existant --}}
         <div id="bloc-existant">
             <label>Sélectionner un client :</label>
             <select name="numero_client" id="select-client">
@@ -46,7 +42,6 @@
             </select>
         </div>
 
-        {{-- Bloc nouveau client (masqué par défaut) --}}
         <div id="bloc-nouveau" style="display:none;">
             <label>Nom :</label>
             <input type="text" name="nouveau_nom"><br>
@@ -63,7 +58,6 @@
         <select id="select-produit">
             <option value="">-- Choisir un produit --</option>
             @foreach ($produits as $produit)
-                {{-- On stocke les infos utiles dans des attributs data- pour le JS --}}
                 <option value="{{ $produit->numero_produit }}"
                         data-nom="{{ $produit->nom_produit }}"
                         data-prix="{{ $produit->prix_ttc }}"
@@ -86,9 +80,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="corps-panier">
-                {{-- Les lignes sont ajoutées dynamiquement par le JS --}}
-            </tbody>
+            <tbody id="corps-panier"></tbody>
             <tfoot>
                 <tr>
                     <th colspan="3" style="text-align:right;">Total TTC :</th>
@@ -110,10 +102,11 @@
         <br><br>
         <button type="submit">Valider la vente</button>
     </form>
+@endsection
 
+@section('scripts')
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Le panier est un tableau JS d'objets {numero_produit, nom, prix, quantite}
         let panier = [];
 
         const selectProduit = document.getElementById('select-produit');
@@ -122,7 +115,6 @@
         const totalTtcEl = document.getElementById('total-ttc');
         const erreurJs = document.getElementById('erreur-js');
 
-        // --- Bascule entre client existant / nouveau client ---
         const radios = document.querySelectorAll('input[name="type_client"]');
         const blocExistant = document.getElementById('bloc-existant');
         const blocNouveau = document.getElementById('bloc-nouveau');
@@ -139,7 +131,6 @@
             });
         });
 
-        // --- Ajout d'un produit au panier ---
         document.getElementById('btn-ajouter').addEventListener('click', function () {
             erreurJs.textContent = '';
 
@@ -158,7 +149,6 @@
 
             const stock = parseFloat(option.dataset.stock);
 
-            // On additionne la quantité déjà dans le panier pour ce produit
             const dejaDansPanier = panier
                 .filter(l => l.numero_produit === numeroProduit)
                 .reduce((somme, l) => somme + l.quantite, 0);
@@ -179,7 +169,6 @@
             afficherPanier();
         });
 
-        // --- Réaffiche le tableau du panier et recalcule le total ---
         function afficherPanier() {
             corpsPanier.innerHTML = '';
             let total = 0;
@@ -201,7 +190,6 @@
 
             totalTtcEl.textContent = total.toFixed(2) + ' €';
 
-            // Rebranche les boutons "Retirer" (recréés à chaque affichage)
             document.querySelectorAll('.btn-supprimer').forEach(btn => {
                 btn.addEventListener('click', function () {
                     panier.splice(parseInt(this.dataset.index), 1);
@@ -210,7 +198,6 @@
             });
         }
 
-        // --- À la soumission : on transforme le panier JS en champs cachés du formulaire ---
         document.getElementById('form-vente').addEventListener('submit', function (e) {
             erreurJs.textContent = '';
 
@@ -220,11 +207,8 @@
                 return;
             }
 
-            // On supprime d'éventuels champs cachés d'une soumission précédente
             document.querySelectorAll('.ligne-cachee').forEach(el => el.remove());
 
-            // Pour chaque ligne du panier, on crée deux inputs cachés attendus par le contrôleur :
-            // lignes[i][numero_produit] et lignes[i][quantite]
             panier.forEach((ligne, i) => {
                 const inputProduit = document.createElement('input');
                 inputProduit.type = 'hidden';
@@ -243,5 +227,4 @@
         });
     });
     </script>
-</body>
-</html>
+@endsection

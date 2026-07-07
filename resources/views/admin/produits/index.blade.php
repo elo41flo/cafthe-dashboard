@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Produits - Dashboard CafThé</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('titre', 'Produits')
+
+@section('contenu')
     <h1>Gestion des produits</h1>
 
     <a href="{{ route('admin.produits.create') }}">+ Ajouter un produit</a>
 
-    {{-- Message de succès après une création/modification/suppression --}}
     @if (session('succes'))
         <p style="color: green;">{{ session('succes') }}</p>
     @endif
@@ -37,9 +34,6 @@
                     <td>{{ $produit->stock }}</td>
                     <td>
                         <a href="{{ route('admin.produits.edit', $produit) }}">Modifier</a>
-
-                        {{-- Un formulaire est nécessaire pour envoyer une requête DELETE
-                             (les liens HTML classiques ne savent faire que du GET) --}}
                         <form method="POST" action="{{ route('admin.produits.destroy', $produit) }}"
                               style="display:inline"
                               onsubmit="return confirm('Supprimer ce produit ?');">
@@ -52,5 +46,4 @@
             @endforeach
         </tbody>
     </table>
-</body>
-</html>
+@endsection

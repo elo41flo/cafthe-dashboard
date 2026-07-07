@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Tableau de bord - CafThé</title>
-    {{-- Chart.js chargé depuis un CDN --}}
+@extends('layouts.app')
+
+@section('titre', 'Tableau de bord')
+
+{{-- Chart.js va dans le <head> via la section prévue à cet effet dans le layout --}}
+@section('head')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
         .kpi-grid { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
         .kpi-card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; min-width: 160px; }
         .kpi-card strong { display: block; font-size: 1.5em; color: #7A287D; }
         .charts { display: flex; gap: 40px; flex-wrap: wrap; }
         .chart-box { width: 450px; }
     </style>
-</head>
-<body>
-    <h1>Tableau de bord</h1>
-    <p>Bienvenue, {{ Auth::user()->prenom_employe }} {{ Auth::user()->nom_employe }} ({{ Auth::user()->role }})</p>
+@endsection
 
-    <form method="POST" action="/logout" style="margin-bottom:20px;">
-        @csrf
-        <button type="submit">Se déconnecter</button>
-    </form>
+@section('contenu')
+    <h1>Tableau de bord</h1>
 
     {{-- ============ CARTES KPI ============ --}}
     <div class="kpi-grid">
@@ -48,7 +42,10 @@
             <canvas id="chartClients"></canvas>
         </div>
     </div>
+@endsection
 
+{{-- Le JS des graphiques va en bas de page via la section "scripts" du layout --}}
+@section('scripts')
     <script>
         // --- Graphique 1 : Top produits (barres horizontales) ---
         new Chart(document.getElementById('chartTopProduits'), {
@@ -61,7 +58,7 @@
                     backgroundColor: '#A23EA4',
                 }]
             },
-            options: { indexAxis: 'y' } // barres horizontales, plus lisible pour des noms
+            options: { indexAxis: 'y' }
         });
 
         // --- Graphique 2 : Répartition par catégorie (camembert) ---
@@ -90,5 +87,4 @@
             }
         });
     </script>
-</body>
-</html>
+@endsection
