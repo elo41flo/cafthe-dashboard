@@ -9,17 +9,30 @@ use Illuminate\Http\Request;
 class CommandeController extends Controller
 {
     // LISTE : affiche uniquement les commandes en ligne (pas les ventes magasin)
-    public function index()
-    {
-        // with('client') charge les clients en une seule requête plutôt qu'une par commande
-        // (évite le problème de performance dit "N+1")
-        $commandes = Commande::with('client')
-            ->where('type_de_commande', 'En ligne')
-            ->orderByDesc('date_commande')
-            ->get();
+    public function index(Request $request)
+{
+    // Requête de base : uniquement les commandes en ligne (comme avant)
+    $query = Commande::with('client')->where('type_de_commande', 'En ligne');
 
-        return view('admin.commandes.index', compact('commandes'));
+    // FILTRE : statut de commande
+    if ($request->filled('statut')) {
+        $query->where('statut_de_commande', $request->statut);
     }
+
+    // FILTRE : date de début (commandes à partir de cette date)
+    if ($request->filled('date_debut')) {
+        $query->whereDate('date_commande', '>=', $request->date_debut);
+    }
+
+    // FILTRE : date de fin (commandes jusqu'à cette date)
+    if ($request->filled('date_fin')) {
+        $query->whereDate('date_commande', '<=', $request->date_fin);
+    }
+
+    $commandes = $query->orderByDesc('date_commande')->get();
+
+    return view('admin.commandes.index', compact('commandes'));
+}
 
     // DÉTAIL : affiche une commande complète avec ses produits et sa livraison
     public function show(Commande $commande)
