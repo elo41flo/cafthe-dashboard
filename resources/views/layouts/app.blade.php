@@ -270,6 +270,11 @@
                     Créer un vendeur
                 </a>
             @endif
+            @if (Auth::check() && Auth::user()->role === 'admin')
+                <a href="{{ route('admin.employes.index') }}" class="{{ request()->routeIs('admin.employes.*') ? 'actif' : '' }}">
+                    Employés
+                </a>
+            @endif
             <a href="{{ route('admin.profil.edit') }}" class="{{ request()->routeIs('admin.profil.*') ? 'actif' : '' }}">
                 Mon profil
             </a>

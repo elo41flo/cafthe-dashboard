@@ -54,3 +54,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/profil/infos', [ProfilController::class, 'updateInfos'])->name('admin.profil.infos');
     Route::put('/admin/profil/mot-de-passe', [ProfilController::class, 'updateMotDePasse'])->name('admin.profil.motdepasse');
 });
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/employes', [EmployeController::class, 'index'])->name('admin.employes.index');
+    Route::get('/admin/employes/creer', [EmployeController::class, 'create'])->name('admin.employes.create');
+    Route::post('/admin/employes', [EmployeController::class, 'store'])->name('admin.employes.store');
+    Route::get('/admin/employes/{employe}/modifier', [EmployeController::class, 'edit'])->name('admin.employes.edit');
+    Route::put('/admin/employes/{employe}', [EmployeController::class, 'update'])->name('admin.employes.update');
+    Route::delete('/admin/employes/{employe}', [EmployeController::class, 'destroy'])->name('admin.employes.destroy');
+});
