@@ -27,7 +27,7 @@ Le dashboard et le site e-commerce partagent la même base de données MySQL.
 
 ## Technologies utilisées
 
-- **Laravel** [version à compléter] — framework PHP
+- **Laravel** — framework PHP
 - **PHP** 8.3
 - **MySQL / MariaDB** — base de données
 - **Blade** — moteur de templates
@@ -82,7 +82,7 @@ Pour se connecter, utiliser un compte employé enregistré en base. La création
 
 ## Auteur
 
-**[Eloise Robert]**  
+**Eloise Robert**  
 Projet réalisé dans le cadre de la formation DWWM — [F@brique Numérique / 2026]
 
 ## Licence
