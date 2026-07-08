@@ -65,10 +65,24 @@ class DashboardController extends Controller
             ->orderBy('mois')
             ->get();
 
+        // ============ ABONNÉS ============
+        // Nombre total de clients actuellement abonnés (colonne est_abonne = 1)
+        $nbAbonnes = Client::where('est_abonne', 1)->count();
+
+        // Répartition par type d'abonnement : on compte les abonnés regroupés par formule
+        // (mensuel, annuel, etc.), en ignorant ceux dont le type n'est pas renseigné
+        $abonnesParType = Client::where('est_abonne', 1)
+            ->whereNotNull('type_abonnement')
+            ->select('type_abonnement', DB::raw('COUNT(*) as total'))
+            ->groupBy('type_abonnement')
+            ->get();
+
+        // Un seul return, à la toute fin, avec toutes les données
         return view('admin.dashboard.index', compact(
             'caJour', 'caSemaine', 'caMois', 'caAnnee',
             'nbVentes', 'panierMoyen',
-            'topProduits', 'ventesParCategorie', 'clientsParMois'
+            'topProduits', 'ventesParCategorie', 'clientsParMois',
+            'nbAbonnes', 'abonnesParType'
         ));
     }
 }

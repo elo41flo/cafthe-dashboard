@@ -25,6 +25,29 @@
         <div class="kpi-card">CA cette année <strong>{{ number_format($caAnnee, 2, ',', ' ') }} €</strong></div>
         <div class="kpi-card">Nombre de ventes <strong>{{ $nbVentes }}</strong></div>
         <div class="kpi-card">Panier moyen <strong>{{ number_format($panierMoyen, 2, ',', ' ') }} €</strong></div>
+        <div class="kpi-card">Abonnés actifs <strong>{{ $nbAbonnes }}</strong></div>
+    </div>
+
+    {{-- ============ RÉPARTITION DES ABONNEMENTS ============ --}}
+    <h2>Répartition des abonnements</h2>
+    <div class="carte">
+        @if ($abonnesParType->count() > 0)
+            <table>
+                <thead>
+                    <tr><th>Type d'abonnement</th><th>Nombre d'abonnés</th></tr>
+                </thead>
+                <tbody>
+                    @foreach ($abonnesParType as $abo)
+                        <tr>
+                            <td>{{ $abo->type_abonnement }}</td>
+                            <td>{{ $abo->total }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <p>Aucun abonné pour le moment.</p>
+        @endif
     </div>
 
     {{-- ============ GRAPHIQUES ============ --}}
