@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Commande;
 use App\Models\Client;
+use App\Models\Produit;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -77,12 +78,31 @@ class DashboardController extends Controller
             ->groupBy('type_abonnement')
             ->get();
 
-        // Un seul return, à la toute fin, avec toutes les données
+        // ============ GESTION DES STOCKS & ALERTES ============
+        $seuilAlerteStock = 10;
+
+        // 1. Produits strictement en rupture de stock (utilisation du scope local)
+        $produitsRupture = Produit::enRupture()
+            ->select('numero_produit', 'nom_produit', 'categorie', 'stock')
+            ->orderBy('nom_produit', 'asc')
+            ->get();
+
+        // 2. Produits bientôt en rupture
+        $produitsStockFaible = Produit::stockFaible($seuilAlerteStock)
+            ->select('numero_produit', 'nom_produit', 'categorie', 'stock')
+            ->orderBy('stock', 'asc')
+            ->get();
+
+        // 3. Calcul du badge d'alerte global
+        $totalAlertesStock = $produitsRupture->count() + $produitsStockFaible->count();
+
+        // Un seul return avec les noms de variables exacts
         return view('admin.dashboard.index', compact(
             'caJour', 'caSemaine', 'caMois', 'caAnnee',
             'nbVentes', 'panierMoyen',
             'topProduits', 'ventesParCategorie', 'clientsParMois',
-            'nbAbonnes', 'abonnesParType'
+            'nbAbonnes', 'abonnesParType',
+            'produitsRupture', 'produitsStockFaible', 'totalAlertesStock'
         ));
     }
 }

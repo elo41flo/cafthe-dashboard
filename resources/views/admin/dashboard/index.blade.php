@@ -28,6 +28,68 @@
         <div class="kpi-card">Abonnés actifs <strong>{{ $nbAbonnes }}</strong></div>
     </div>
 
+    {{-- ============ GESTION DES STOCKS ============ --}}
+    <h2>Etats des stocks</h2>
+    <div class="stock-section">
+        {{-- Produits en rupture --}}
+        <div class="stock-box">
+            <h3>Produits en rupture ({{ $produitsRupture->Count() }})</h3>
+            @if (produitsRupture->count() > 0)
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Réf</th>
+                            <th>Produit</th>
+                            <th>Catégorie</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (produitsRupture as $produit)
+                            <tr>
+                                <td>#{{ $produit->numero_produit }}</td>
+                                <td>{{ $produit->nom_produit }}</td>
+                                <td>{{ $produit->categorie }}</td>
+                                <td><span class="badge badge-danger">0</span></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>Aucun produit en rupture de stock</p>
+            @endif
+        </div>
+
+        {{-- Produits en stock faible --}}
+        <div class="stock-box">
+            <h3>Stock faible ({{ $produitsStockFaible->count() }})</h3>
+            @if ($produitsStockFaible->count() > 0)
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Réf</th>
+                            <th>Produit</th>
+                            <th>Catégorie</th>
+                            <th>Stock restant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($produitsStockFaible as $produit)
+                            <tr>
+                                <td>#{{ $produit->numero_produit }}</td>
+                                <td>{{ $produit->nom_produit }}</td>
+                                <td>{{ $produit->categorie }}</td>
+                                <td><span class="badge badge-warning">{{ $produit->stock }}</span></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>Aucun produit en stock faible.</p>
+            @endif
+        </div>
+    </div>
+
     {{-- ============ RÉPARTITION DES ABONNEMENTS ============ --}}
     <h2>Répartition des abonnements</h2>
     <div class="carte">

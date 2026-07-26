@@ -25,4 +25,17 @@ class Produit extends Model
         'origine',
         'numero_promotion',
     ];
+
+    public function scopeEnRupture($query)
+    {
+        // On cible la colonne 'stock' <= 0
+        return $query->where('stock', '<=', 0);
+    }
+
+    public function scopeStockFaible($query, $seuil = 10)
+    {
+        // On cherche les produits qui sont encore du stock
+        return $query->where('stock', '>', 0)
+                    ->where('stock', '<=', $seuil);
+    }
 }
