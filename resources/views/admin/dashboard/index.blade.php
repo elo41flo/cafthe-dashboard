@@ -34,7 +34,7 @@
         {{-- Produits en rupture --}}
         <div class="stock-box">
             <h3>Produits en rupture ({{ $produitsRupture->Count() }})</h3>
-            @if (produitsRupture->count() > 0)
+            @if ($produitsRupture->count() > 0)
                 <table>
                     <thead>
                         <tr>
@@ -45,7 +45,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (produitsRupture as $produit)
+                        @foreach ($produitsRupture as $produit)
                             <tr>
                                 <td>#{{ $produit->numero_produit }}</td>
                                 <td>{{ $produit->nom_produit }}</td>
