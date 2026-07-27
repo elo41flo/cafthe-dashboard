@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Commande;
 use App\Models\Client;
+<<<<<<< Updated upstream
 use App\Models\Produit;
+=======
+use App\Models\ActivityLog;
+>>>>>>> Stashed changes
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -78,6 +82,7 @@ class DashboardController extends Controller
             ->groupBy('type_abonnement')
             ->get();
 
+<<<<<<< Updated upstream
         // ============ GESTION DES STOCKS & ALERTES ============
         $seuilAlerteStock = 10;
 
@@ -97,12 +102,25 @@ class DashboardController extends Controller
         $totalAlertesStock = $produitsRupture->count() + $produitsStockFaible->count();
 
         // Un seul return avec les noms de variables exacts
+=======
+        // ============ ACTIVITE RECENTES ============
+        $activiteRecentes = ActivityLog::with('user')
+            ->orderby('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        // Un seul return, à la toute fin, avec toutes les données
+>>>>>>> Stashed changes
         return view('admin.dashboard.index', compact(
             'caJour', 'caSemaine', 'caMois', 'caAnnee',
             'nbVentes', 'panierMoyen',
             'topProduits', 'ventesParCategorie', 'clientsParMois',
             'nbAbonnes', 'abonnesParType',
+<<<<<<< Updated upstream
             'produitsRupture', 'produitsStockFaible', 'totalAlertesStock'
+=======
+            'activiteRecentes'
+>>>>>>> Stashed changes
         ));
     }
 }

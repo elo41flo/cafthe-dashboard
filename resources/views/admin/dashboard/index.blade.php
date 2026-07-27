@@ -25,6 +25,7 @@
         <div class="kpi-card">CA cette année <strong>{{ number_format($caAnnee, 2, ',', ' ') }} €</strong></div>
         <div class="kpi-card">Nombre de ventes <strong>{{ $nbVentes }}</strong></div>
         <div class="kpi-card">Panier moyen <strong>{{ number_format($panierMoyen, 2, ',', ' ') }} €</strong></div>
+<<<<<<< Updated upstream
         <div class="kpi-card">Abonnés actifs <strong>{{ $nbAbonnes }}</strong></div>
     </div>
 
@@ -110,6 +111,8 @@
         @else
             <p>Aucun abonné pour le moment.</p>
         @endif
+=======
+>>>>>>> Stashed changes
     </div>
 
     {{-- ============ GRAPHIQUES ============ --}}
@@ -159,17 +162,27 @@
         });
 
         // --- Graphique 3 : Évolution clients par mois (courbe) ---
+        // Nouveau graphique Chart.js en ciblant la balise <canvas id="chartClients">
         new Chart(document.getElementById('chartClients'), {
+            // Graphique en courbe
             type: 'line',
             data: {
+                // Label = l'axe horizontal
+                // pluck('mois) = extrait uniquement la colonne "mois" des résultats
+                // json_encode = convertit du PHP vers un tableau lisible par JS
                 labels: {!! json_encode($clientsParMois->pluck('mois')) !!},
                 datasets: [{
+                    // Le texte affiché dans la légende du graphique
                     label: 'Clients actifs',
+                    // data = l'axe vertical
                     data: {!! json_encode($clientsParMois->pluck('nb_clients')) !!},
                     borderColor: '#A23EA4',
+                    // fill: false = on ne remplit pas la zone sous la courbe
                     fill: false,
                 }]
             }
         });
+
+        
     </script>
 @endsection
