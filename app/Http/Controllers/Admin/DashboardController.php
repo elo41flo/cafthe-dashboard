@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Commande;
 use App\Models\Client;
 use App\Models\Produit;
+use App\Models\ActivityLog;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -95,6 +96,12 @@ class DashboardController extends Controller
 
         // 3. Calcul du badge d'alerte global
         $totalAlertesStock = $produitsRupture->count() + $produitsStockFaible->count();
+
+        // ============ ACTIVITÉS RÉCENTES ============
+        $activitesRecentes = ActivityLog::with('user')
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
 
         // Un seul return avec TOUTES tes variables combinées
         return view('admin.dashboard.index', compact(
