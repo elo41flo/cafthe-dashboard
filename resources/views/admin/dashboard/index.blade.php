@@ -33,7 +33,7 @@
     <div class="stock-section">
         {{-- Produits en rupture --}}
         <div class="stock-box">
-            <h3>Produits en rupture ({{ $produitsRupture->Count() }})</h3>
+            <h3>Produits en rupture ({{ $produitsRupture->count() }})</h3>
             @if ($produitsRupture->count() > 0)
                 <table>
                     <thead>
@@ -90,8 +90,8 @@
         </div>
     </div>
 
-    {{-- ============ JOURNAL D'ACTIVITES RECENTES ============ --}}
-    <h2>Journal d'actvitié récentes</h2>
+    {{-- ============ JOURNAL D'ACTIVITÉS RÉCENTES ============ --}}
+    <h2>Journal d'activités récentes</h2>
     <div class="carte">
         @if ($activitesRecentes->count() > 0)
             <table>
@@ -107,9 +107,9 @@
                     @foreach ($activitesRecentes as $log)
                         <tr>
                             <td>{{ \Carbon\Carbon::parse($log->created_at)->format('d/m/Y H:i') }}</td>
-                            <td>{{ $log->user ? $log->user->name :'Système' }}</td>
+                            <td>{{ $log->user ? $log->user->name : 'Système' }}</td>
                             <td><strong>{{ $log->action }}</strong></td>
-                            <td>{{ $log-description }}</td>
+                            <td>{{ $log->description }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -188,27 +188,17 @@
         });
 
         // --- Graphique 3 : Évolution clients par mois (courbe) ---
-        // Nouveau graphique Chart.js en ciblant la balise <canvas id="chartClients">
         new Chart(document.getElementById('chartClients'), {
-            // Graphique en courbe
             type: 'line',
             data: {
-                // Label = l'axe horizontal
-                // pluck('mois) = extrait uniquement la colonne "mois" des résultats
-                // json_encode = convertit du PHP vers un tableau lisible par JS
                 labels: {!! json_encode($clientsParMois->pluck('mois')) !!},
                 datasets: [{
-                    // Le texte affiché dans la légende du graphique
                     label: 'Clients actifs',
-                    // data = l'axe vertical
                     data: {!! json_encode($clientsParMois->pluck('nb_clients')) !!},
                     borderColor: '#A23EA4',
-                    // fill: false = on ne remplit pas la zone sous la courbe
                     fill: false,
                 }]
             }
         });
-
-        
     </script>
 @endsection
