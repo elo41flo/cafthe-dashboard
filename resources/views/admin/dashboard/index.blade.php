@@ -90,7 +90,7 @@
         </div>
     </div>
 
-    {{-- ============ JOURNAL D'ACTIVITE RECENTES ============ --}}
+    {{-- ============ JOURNAL D'ACTIVITES RECENTES ============ --}}
     <h2>Journal d'actvitié récentes</h2>
     <div class="carte">
         @if ($activitesRecentes->count() > 0)
@@ -111,6 +111,7 @@
                             <td><strong>{{ $log->action }}</strong></td>
                             <td>{{ $log-description }}</td>
                         </tr>
+                    @endforeach
                 </tbody>
             </table>
         @else
