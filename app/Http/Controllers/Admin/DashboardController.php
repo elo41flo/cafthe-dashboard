@@ -82,7 +82,6 @@ class DashboardController extends Controller
             ->groupBy('type_abonnement')
             ->get();
 
-<<<<<<< Updated upstream
         // ============ GESTION DES STOCKS & ALERTES ============
         $seuilAlerteStock = 10;
 
@@ -102,15 +101,6 @@ class DashboardController extends Controller
         $totalAlertesStock = $produitsRupture->count() + $produitsStockFaible->count();
 
         // Un seul return avec les noms de variables exacts
-=======
-        // ============ ACTIVITE RECENTES ============
-        $activiteRecentes = ActivityLog::with('user')
-            ->orderby('created_at', 'desc')
-            ->limit(10)
-            ->get();
-
-        // Un seul return, à la toute fin, avec toutes les données
->>>>>>> Stashed changes
         return view('admin.dashboard.index', compact(
             'caJour', 'caSemaine', 'caMois', 'caAnnee',
             'nbVentes', 'panierMoyen',
