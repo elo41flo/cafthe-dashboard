@@ -96,17 +96,14 @@ class DashboardController extends Controller
         // 3. Calcul du badge d'alerte global
         $totalAlertesStock = $produitsRupture->count() + $produitsStockFaible->count();
 
-        // Un seul return avec les noms de variables exacts
+        // Un seul return avec TOUTES tes variables combinées
         return view('admin.dashboard.index', compact(
             'caJour', 'caSemaine', 'caMois', 'caAnnee',
             'nbVentes', 'panierMoyen',
             'topProduits', 'ventesParCategorie', 'clientsParMois',
             'nbAbonnes', 'abonnesParType',
-<<<<<<< Updated upstream
-            'produitsRupture', 'produitsStockFaible', 'totalAlertesStock'
-=======
-            'activiteRecentes'
->>>>>>> Stashed changes
+            'produitsRupture', 'produitsStockFaible', 'totalAlertesStock',
+            'activitesRecentes'
         ));
     }
 }
