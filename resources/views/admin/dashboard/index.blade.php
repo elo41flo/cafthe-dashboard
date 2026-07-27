@@ -25,7 +25,6 @@
         <div class="kpi-card">CA cette année <strong>{{ number_format($caAnnee, 2, ',', ' ') }} €</strong></div>
         <div class="kpi-card">Nombre de ventes <strong>{{ $nbVentes }}</strong></div>
         <div class="kpi-card">Panier moyen <strong>{{ number_format($panierMoyen, 2, ',', ' ') }} €</strong></div>
-<<<<<<< Updated upstream
         <div class="kpi-card">Abonnés actifs <strong>{{ $nbAbonnes }}</strong></div>
     </div>
 
@@ -91,6 +90,34 @@
         </div>
     </div>
 
+    {{-- ============ JOURNAL D'ACTIVITE RECENTES ============ --}}
+    <h2>Journal d'actvitié récentes</h2>
+    <div class="carte">
+        @if ($activitesRecentes->count() > 0)
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date / Heure</th>
+                        <th>Utilisateur</th>
+                        <th>Action</th>
+                        <th>Détails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($activitesRecentes as $log)
+                        <tr>
+                            <td>{{ \Carbon\Carbon::parse($log->created_at)->format('d/m/Y H:i') }}</td>
+                            <td>{{ $log->user ? $log->user->name :'Système' }}</td>
+                            <td><strong>{{ $log->action }}</strong></td>
+                            <td>{{ $log-description }}</td>
+                        </tr>
+                </tbody>
+            </table>
+        @else
+            <p>Aucune activité enregistrée pour le moment.</p>
+        @endif
+    </div>
+
     {{-- ============ RÉPARTITION DES ABONNEMENTS ============ --}}
     <h2>Répartition des abonnements</h2>
     <div class="carte">
@@ -111,8 +138,6 @@
         @else
             <p>Aucun abonné pour le moment.</p>
         @endif
-=======
->>>>>>> Stashed changes
     </div>
 
     {{-- ============ GRAPHIQUES ============ --}}
