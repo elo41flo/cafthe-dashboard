@@ -5,11 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Commande;
 use App\Models\Client;
-<<<<<<< Updated upstream
 use App\Models\Produit;
-=======
-use App\Models\ActivityLog;
->>>>>>> Stashed changes
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
